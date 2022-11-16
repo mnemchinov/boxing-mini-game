@@ -1,28 +1,7 @@
-import enum
 import random
 
-
-@enum.unique
-class PlayerType(enum.IntEnum):
-    ROBOT = 0
-    HUMANOID = 1
-
-
-@enum.unique
-class BodyParts(enum.IntEnum):
-    HEAD = 1
-    BODY = 2
-
-
-@enum.unique
-class Actions(enum.IntEnum):
-    attack = -1
-    block = 1
-
-
-class TypeAI(enum.IntEnum):
-    RND = 0
-    MOST_COMMON = 1
+from enums import PlayerType, BodyParts, Actions, TypeAI
+from collections import Counter
 
 
 class Game:
@@ -88,17 +67,8 @@ class Game:
 
     @staticmethod
     def get_most_common_body_parts(data: list[int]) -> BodyParts or None:
-        result = None
-        quantity_most_common = 0
-
-        for item in data:
-            quantity = data.count(item)
-
-            if quantity >= quantity_most_common:
-                result = item
-                quantity_most_common = quantity
-
-        result = result if result is None else BodyParts(result)
+        most_common = Counter(data).most_common(1)
+        result = None if len(most_common) == 0 else most_common[0][0]
 
         return result
 
